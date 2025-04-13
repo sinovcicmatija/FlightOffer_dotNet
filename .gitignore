@@ -1,0 +1,29 @@
+# Node modules
+**/node_modules/
+**/dist/
+**/.angular/
+
+# .NET build
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.log
+
+# Angular cache
+.angular/cache/
+
+# Docker
+*.pid
