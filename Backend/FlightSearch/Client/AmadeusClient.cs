@@ -1,4 +1,5 @@
-﻿using FlightSearch.Models;
+﻿using FlightSearch.Models.Domain;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -11,6 +12,7 @@ namespace FlightSearch.Client
         private readonly string _apiKey;
         private readonly string _apiSecret;
         private readonly string? _tokenUrl;
+        private readonly string? _locationUrl;
 
         public AmadeusClient(HttpClient httpClient, IConfiguration configuration)
         {
@@ -21,6 +23,7 @@ namespace FlightSearch.Client
                 ?? throw new InvalidOperationException("API tajni ključ nije postavljen");
 
             _tokenUrl = configuration.GetValue<string>("AmadeusApi:AmadeusApiTokenUrl");
+            _locationUrl = configuration.GetValue<string>("AmadeusApi:AmadeusApiLocationUrl");
         }
 
         public async Task<TokenResponse> GetToken()
@@ -37,6 +40,23 @@ namespace FlightSearch.Client
             var response = await _httpClient.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<TokenResponse>(content);
+        }
+
+        public async Task<LocationResponse> getLocationAirport(string token, string keyword)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _locationUrl);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.TryAddWithoutValidation("Content-Type", "application/vnd.amadeus+json");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var queryParams = new Dictionary<string, string>
+            {
+                { "subType", "CITY,AIRPORT" },
+                { "keyword", keyword }
+            };
+            var fullUrl = QueryHelpers.AddQueryString(_locationUrl, queryParams);
+            var response = await _httpClient.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<LocationResponse>(content);
         }
 
     }

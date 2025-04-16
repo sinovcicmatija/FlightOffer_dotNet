@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FlightSearch.Models
+namespace FlightSearch.Models.Domain
 {
     public class TokenResponse
     {
