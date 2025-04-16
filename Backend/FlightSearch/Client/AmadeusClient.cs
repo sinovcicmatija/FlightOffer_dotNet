@@ -42,18 +42,22 @@ namespace FlightSearch.Client
             return JsonSerializer.Deserialize<TokenResponse>(content);
         }
 
-        public async Task<LocationResponse> getLocationAirport(string token, string keyword)
+        public async Task<LocationResponse> GetLocationAirport(string token, string keyword)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _locationUrl);
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.TryAddWithoutValidation("Content-Type", "application/vnd.amadeus+json");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var queryParams = new Dictionary<string, string>
             {
                 { "subType", "CITY,AIRPORT" },
                 { "keyword", keyword }
             };
+
             var fullUrl = QueryHelpers.AddQueryString(_locationUrl, queryParams);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, fullUrl);
+
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.TryAddWithoutValidation("Content-Type", "application/vnd.amadeus+json");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             var response = await _httpClient.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<LocationResponse>(content);

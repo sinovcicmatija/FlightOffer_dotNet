@@ -1,4 +1,8 @@
 
+using FlightSearch.Client;
+using FlightSearch.Interfaces;
+using FlightSearch.Services;
+
 namespace FlightSearch
 {
     public class Program
@@ -10,6 +14,8 @@ namespace FlightSearch
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddHttpClient<AmadeusClient>();
+            builder.Services.AddScoped<IAirportService, AirportService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
