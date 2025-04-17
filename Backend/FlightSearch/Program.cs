@@ -16,6 +16,7 @@ namespace FlightSearch
             builder.Services.AddControllers();
             builder.Services.AddHttpClient<AmadeusClient>();
             builder.Services.AddScoped<IAirportService, AirportService>();
+            builder.Services.AddScoped<IFlightOfferService, FlightOfferService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

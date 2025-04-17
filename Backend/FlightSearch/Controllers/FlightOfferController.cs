@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FlightSearch.Interfaces;
+using FlightSearch.Models.External;
+using FlightSearch.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightSearch.Controllers
@@ -7,5 +10,20 @@ namespace FlightSearch.Controllers
     [ApiController]
     public class FlightOfferController : ControllerBase
     {
+        private readonly IFlightOfferService _flightOfferService;
+
+        public FlightOfferController(IFlightOfferService flightOfferService)
+        {
+            _flightOfferService = flightOfferService;
+        }
+
+        [HttpPost]
+        [Route("flight-offers")]
+
+        public async Task<IActionResult> GetFlightOffer([FromBody] FlightOfferCallModel callModel)
+        {
+            var flightOfferData = await _flightOfferService.GetFlightOffer(callModel);
+            return Ok(flightOfferData);
+        }
     }
 }

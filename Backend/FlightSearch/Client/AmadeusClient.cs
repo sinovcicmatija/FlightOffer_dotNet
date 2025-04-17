@@ -1,7 +1,9 @@
 ﻿using FlightSearch.Models.Domain;
+using FlightSearch.Models.External;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FlightSearch.Client
 {
@@ -13,6 +15,7 @@ namespace FlightSearch.Client
         private readonly string _apiSecret;
         private readonly string? _tokenUrl;
         private readonly string? _locationUrl;
+        private readonly string? _flightOfferUrl;
 
         public AmadeusClient(HttpClient httpClient, IConfiguration configuration)
         {
@@ -24,6 +27,7 @@ namespace FlightSearch.Client
 
             _tokenUrl = configuration.GetValue<string>("AmadeusApi:AmadeusApiTokenUrl");
             _locationUrl = configuration.GetValue<string>("AmadeusApi:AmadeusApiLocationUrl");
+            _flightOfferUrl = configuration.GetValue<string>("AmadeusApi:AmadeusApiFlightOffersUrl");
         }
 
         public async Task<TokenResponse> GetToken()
@@ -63,5 +67,17 @@ namespace FlightSearch.Client
             return JsonSerializer.Deserialize<LocationResponse>(content);
         }
 
+        public async Task<FlightOfferResponse> GetFlightOffer(string token, FlightOfferCallModel flightOfferCallModel)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, _flightOfferUrl);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.TryAddWithoutValidation("Content-Type", "application/vnd.amadeus+json");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = JsonContent.Create(flightOfferCallModel);
+
+            var response = await _httpClient.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<FlightOfferResponse>(content);
+        }
     }
 }

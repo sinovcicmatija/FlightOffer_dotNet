@@ -84,7 +84,7 @@ namespace FlightSearch.Helpers
                     var segments = itineraries[1].Segments;
                     if (segments?.Length > 0)
                     {
-                        dto.NumberOfTransfersDeparture = segments.Length - 1;
+                        dto.NumberOfTransfersReturn = segments.Length - 1;
                     }
                 }
 
