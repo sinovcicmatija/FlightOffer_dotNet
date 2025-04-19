@@ -5,6 +5,6 @@ namespace FlightSearch.Interfaces
 {
     public interface IFlightOfferService
     {
-        Task<List<FlightOfferDTO>> GetFlightOffer(FlightOfferCallModel callModel);
+        Task<List<FlightOfferDTO>> GetFlightOffer(FlightOfferCallDTO callModel);
     }
 }

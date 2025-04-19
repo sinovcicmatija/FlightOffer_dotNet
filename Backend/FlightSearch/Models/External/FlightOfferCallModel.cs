@@ -9,13 +9,13 @@ namespace FlightSearch.Models.External
         public string? CurrencyCode { get; set; }
 
         [JsonPropertyName("originDestinations")]
-        public OriginDestinations[]? OriginDestinations { get; set; }
+        public List<OriginDestinations>? OriginDestinations { get; set; }
 
         [JsonPropertyName("travelers")]
-        public Travelers[]? Travelers { get; set; }
+        public List<Travelers>? Travelers { get; set; }
 
         [JsonPropertyName("sources")]
-        public string[]? Sources { get; set; }
+        public List<string>? Sources { get; set; }
 
         [JsonPropertyName("searchCriteria")]
         public SearchCriteria? SearchCriteria { get; set; }

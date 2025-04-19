@@ -15,12 +15,14 @@ namespace FlightSearch.Services
         {
             _client = client;
         }
-        public async Task<List<FlightOfferDTO>> GetFlightOffer(FlightOfferCallModel callModel)
+        public async Task<List<FlightOfferDTO>> GetFlightOffer(FlightOfferCallDTO callModelDTO)
         {
             TokenResponse tokenResponse = await _client.GetToken();
             string token = tokenResponse.AccessToken;
 
-            FlightOfferResponse response = await _client.GetFlightOffer(token, callModel);
+            FlightOfferCallModel model = FlightOfferCallMapper.MapToFlightOfferCallModel(callModelDTO);
+
+            FlightOfferResponse response = await _client.GetFlightOffer(token, model);
 
             return FlightOfferMapper.toDTO(response);
         }

@@ -11,6 +11,6 @@ namespace FlightSearch.Models.External.SubModel
         public string? Coverage { get; set; }
 
         [JsonPropertyName("originDestinationIds")]
-        public string[]? OriginDestinationIds { get; set; }
+        public List<string>? OriginDestinationIds { get; set; }
     }
 }

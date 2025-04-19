@@ -1,4 +1,5 @@
 ﻿using FlightSearch.Interfaces;
+using FlightSearch.Models.DTOs;
 using FlightSearch.Models.External;
 using FlightSearch.Services;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +21,9 @@ namespace FlightSearch.Controllers
         [HttpPost]
         [Route("flight-offers")]
 
-        public async Task<IActionResult> GetFlightOffer([FromBody] FlightOfferCallModel callModel)
+        public async Task<IActionResult> GetFlightOffer([FromBody] FlightOfferCallDTO callModelDTO)
         {
-            var flightOfferData = await _flightOfferService.GetFlightOffer(callModel);
+            var flightOfferData = await _flightOfferService.GetFlightOffer(callModelDTO);
             return Ok(flightOfferData);
         }
     }

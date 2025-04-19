@@ -5,6 +5,6 @@ namespace FlightSearch.Models.External.SubModel
     public class FlightFilters
     {
         [JsonPropertyName("cabinRestrictions")]
-        public CabinRestrictions[]? CabinRestrictions { get; set; }
+        public List<CabinRestrictions>? CabinRestrictions { get; set; }
     }
 }
