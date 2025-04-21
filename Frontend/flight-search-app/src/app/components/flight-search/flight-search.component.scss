@@ -1,0 +1,71 @@
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .row-1,
+  .row-2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  mat-form-field {
+    flex: 1 1 250px;
+    min-width: 200px;
+  }
+  
+  .traveler-wrapper {
+    position: relative;
+    flex: 1 1 250px;
+  }
+  
+  .clickable-field {
+    cursor: pointer;
+  }
+  
+  .traveler-box {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    z-index: 10;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .traveler-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+  
+    label {
+      font-weight: 500;
+    }
+  
+    button {
+      width: 32px;
+      height: 32px;
+      font-weight: bold;
+    }
+  }
+  
+  .search-btn {
+    margin-left: auto;
+    background-color: #1976d2;
+    color: white;
+  
+    &:hover {
+      background-color: #125aa3;
+    }
+  }
+  

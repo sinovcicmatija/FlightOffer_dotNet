@@ -1,0 +1,79 @@
+<div class="form-grid">
+    <div class="row-1">
+  <mat-form-field appearance="fill">
+    <mat-label>Polazni aerodrom</mat-label>
+    <input type="text" matInput [formControl]="departureControl" [matAutocomplete]="departureAuto">
+    <mat-autocomplete #departureAuto="matAutocomplete" (optionSelected)="onDepartureSelected($event)" [displayWith]="displayFn">
+      <mat-option *ngFor="let airport of departureAirports$ | async" [value]="airport">
+        {{ airport.cityName }}, {{ airport.airportName }} ({{ airport.iataCode }})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Odredišni aerodrom</mat-label>
+    <input type="text" matInput [formControl]="destinationControl" [matAutocomplete]="destinationAuto">
+    <mat-autocomplete #destinationAuto="matAutocomplete" (optionSelected)="onDestinationSelected($event)" [displayWith]="displayFn">
+      <mat-option *ngFor="let airport of destinationAirports$ | async" [value]="airport">
+        {{ airport.cityName }}, {{ airport.airportName }} ({{ airport.iataCode }})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Datum polaska</mat-label>
+    <input matInput [matDatepicker]="departurePicker" [(ngModel)]="departureDate">
+    <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
+    <mat-datepicker #departurePicker></mat-datepicker>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill" *ngIf="isRoundTrip">
+    <mat-label>Datum povratka</mat-label>
+    <input matInput [matDatepicker]="returnPicker" [(ngModel)]="returnDate">
+    <mat-datepicker-toggle matSuffix [for]="returnPicker"></mat-datepicker-toggle>
+    <mat-datepicker #returnPicker></mat-datepicker>
+  </mat-form-field>
+  
+  <div class="traveler-wrapper">
+  <mat-form-field appearance="fill" class="clickable-field">
+    <input matInput readonly [value]="getTravelerSummary()" (click)="toggleTravelerBox()" />
+  </mat-form-field>
+  
+  <div *ngIf="travelerBoxVisible" class="traveler-box" (clickOutside)="travelerBoxVisible = false">
+    <mat-form-field>
+      <mat-label>Cabin class</mat-label>
+      <mat-select [(value)]="cabinClass">
+        <mat-option *ngFor="let c of cabinClasses" [value]="c">{{c}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <div class="traveler-group">
+      <label>Odrasli</label>
+      <button (click)="adjustCount('adults', -1)">-</button>
+      {{adults}}
+      <button (click)="adjustCount('adults', 1)">+</button>
+    </div>
+  
+    <div class="traveler-group">
+      <label>Djeca</label>
+      <button (click)="adjustCount('children', -1)">-</button>
+      {{children}}
+      <button (click)="adjustCount('children', 1)">+</button>
+    </div>
+  
+    <button (click)="travelerBoxVisible = false">Primijeni</button>
+  </div>
+  </div>
+  
+  <mat-form-field>
+    <mat-label>Valuta</mat-label>
+    <mat-select [(value)]="currency">
+      <mat-option *ngFor="let c of currencyes" [value]="c">{{c}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div>
+  <div class="row-2">
+  <mat-checkbox [(ngModel)]="isRoundTrip" (change)="toggleRoundTrip()">Povratno putovanje</mat-checkbox>
+  <button mat-raised-button class="search-btn" (click)="getFlightOfferData()">Pretraži</button>
+  </div>
+  </div>
