@@ -89,7 +89,7 @@ export class FlightSearchComponent implements OnInit {
   
 getTravelerSummary(): string {
   const total = this.adults + this.children;
-  const label = total === 1 ? 'Traveler' : 'Putnika';
+  const label = total === 1 ? 'Putnik' : 'Putnika';
   return`${total} ${label}, ${this.cabinClass}`;
 }
 
