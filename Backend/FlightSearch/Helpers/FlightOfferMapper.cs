@@ -1,4 +1,5 @@
-﻿using FlightSearch.Models.Domain;
+﻿using System.Globalization;
+using FlightSearch.Models.Domain;
 using FlightSearch.Models.Domain.SubModel;
 using FlightSearch.Models.DTOs;
 
@@ -6,6 +7,14 @@ namespace FlightSearch.Helpers
 {
     public class FlightOfferMapper
     {
+        private static string FormatDateTime(string isoDateTime)
+        {
+            if (DateTime.TryParse(isoDateTime, out var parsedDate))
+            {
+                return parsedDate.ToString("dd.MM.yyyy. 'u' HH:mm", CultureInfo.InvariantCulture);
+            }
+            return isoDateTime; 
+        }
         public static List<FlightOfferDTO> toDTO(FlightOfferResponse response)
         {
             List<FlightOfferDTO> dtoList = new List<FlightOfferDTO> ();
@@ -50,7 +59,7 @@ namespace FlightSearch.Helpers
                         var departureDate = segments[0].Departure;
                         if (departureDate != null)
                         {
-                            dto.DepartureDate = departureDate.At;
+                            dto.DepartureDate = FormatDateTime(departureDate.At);
                         }
                     }
                 }
@@ -64,7 +73,7 @@ namespace FlightSearch.Helpers
                             var returnDate = segments[segments.Length - 1].Arrival;
                             if (returnDate != null)
                             {
-                                dto.ReturnDate = returnDate.At;
+                                dto.ReturnDate = FormatDateTime(returnDate.At);
                             }
                         }
                     }
