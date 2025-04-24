@@ -10,15 +10,16 @@ namespace FlightSearch.Services
     public class FlightOfferService : IFlightOfferService
     {
         private readonly AmadeusClient _client;
+        private readonly ITokenService _tokenService;
 
-        public FlightOfferService(AmadeusClient client)
+        public FlightOfferService(AmadeusClient client, ITokenService tokenService)
         {
             _client = client;
+            _tokenService = tokenService;
         }
         public async Task<List<FlightOfferDTO>> GetFlightOffer(FlightOfferCallDTO callModelDTO)
         {
-            TokenResponse tokenResponse = await _client.GetToken();
-            string token = tokenResponse.AccessToken;
+            string token = await _tokenService.GetAccessToken();
 
             FlightOfferCallModel model = FlightOfferCallMapper.MapToFlightOfferCallModel(callModelDTO);
 

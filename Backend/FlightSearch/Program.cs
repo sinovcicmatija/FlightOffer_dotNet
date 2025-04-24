@@ -2,6 +2,7 @@
 using FlightSearch.Client;
 using FlightSearch.Interfaces;
 using FlightSearch.Services;
+using StackExchange.Redis;
 
 namespace FlightSearch
 {
@@ -12,6 +13,8 @@ namespace FlightSearch
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
 
             // Add services to the container.
 
@@ -30,6 +33,8 @@ namespace FlightSearch
             builder.Services.AddHttpClient<AmadeusClient>();
             builder.Services.AddScoped<IAirportService, AirportService>();
             builder.Services.AddScoped<IFlightOfferService, FlightOfferService>();
+            builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
