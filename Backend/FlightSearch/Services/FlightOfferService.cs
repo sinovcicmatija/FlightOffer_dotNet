@@ -11,21 +11,35 @@ namespace FlightSearch.Services
     {
         private readonly AmadeusClient _client;
         private readonly ITokenService _tokenService;
+        private readonly IRedisCacheService _redisCacheService;
+        private readonly ILogger<FlightOfferService> _logger;
 
-        public FlightOfferService(AmadeusClient client, ITokenService tokenService)
+        public FlightOfferService(ILogger<FlightOfferService> logger, AmadeusClient client, ITokenService tokenService, IRedisCacheService redisCacheService)
         {
             _client = client;
             _tokenService = tokenService;
+            _redisCacheService = redisCacheService;
+            _logger = logger;
         }
         public async Task<List<FlightOfferDTO>> GetFlightOffer(FlightOfferCallDTO callModelDTO)
         {
             string token = await _tokenService.GetAccessToken();
+            string hashKey = CacheKeyGenerator.GenerateHashKey(callModelDTO);
+            var cachedOffers = await _redisCacheService.GetAsync<List<FlightOfferDTO>>(hashKey);
+            if(cachedOffers != null)
+            {
+                _logger.LogInformation($"Vraćam {cachedOffers.Count} keširanih ponuda za hash ključ: {hashKey}");
+                return cachedOffers;
+            }
+
+            _logger.LogInformation($"traze se novi podaci, saljem zahtjev");
 
             FlightOfferCallModel model = FlightOfferCallMapper.MapToFlightOfferCallModel(callModelDTO);
-
             FlightOfferResponse response = await _client.GetFlightOffer(token, model);
+            List<FlightOfferDTO> offerDTOs = FlightOfferMapper.toDTO(response);
+            await _redisCacheService.SetAsync(hashKey, offerDTOs, TimeSpan.FromMinutes(10));
 
-            return FlightOfferMapper.toDTO(response);
+            return offerDTOs;
         }
     }
 }
