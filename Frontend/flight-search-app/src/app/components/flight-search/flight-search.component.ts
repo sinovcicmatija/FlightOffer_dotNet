@@ -23,8 +23,8 @@ export class FlightSearchComponent implements OnInit {
   selectedDestinationIata: string | null = null;
 
   isRoundTrip = false;
-  departureDate: string | null = null;
-  returnDate: string | null = null;
+  departureDate: Date | null = null;
+  returnDate: Date | null = null;
   travelerBoxVisible = false;
   adults = 1;
   children = 0;
@@ -93,10 +93,13 @@ getTravelerSummary(): string {
   return`${total} ${label}, ${this.cabinClass}`;
 }
 
-formatDate(date: Date | string | null): string {
-  if (!date) return '';
-  return new Date(date).toISOString().split('T')[0]; 
+formatDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
+
 
 getFlightOfferData()
 {    
@@ -108,7 +111,7 @@ getFlightOfferData()
     originIata: this.selectedDepartureIata || '',
     destinationIata: this.selectedDestinationIata || '',
     departureDate: this.formatDate(this.departureDate),
-    returnDate: this.isRoundTrip? this.formatDate(this.returnDate) : undefined,
+    returnDate: this.isRoundTrip && this.returnDate? this.formatDate(this.returnDate) : undefined,
     isRoundTrip: this.isRoundTrip,
     adults: this.adults,
     children: this.children,

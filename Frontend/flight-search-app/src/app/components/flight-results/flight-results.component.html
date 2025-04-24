@@ -1,58 +1,31 @@
-<table mat-table [dataSource]="offers" class="mat-elevation-z8">
-
-    <!-- Polazni aerodrom -->
-    <ng-container matColumnDef="departureAirport">
-      <th mat-header-cell *matHeaderCellDef> Polazni aerodrom </th>
-      <td mat-cell *matCellDef="let offer"> {{ offer.departureAirport }} </td>
-    </ng-container>
-  
-    <!-- Odredišni aerodrom -->
-    <ng-container matColumnDef="arrivalAirport">
-      <th mat-header-cell *matHeaderCellDef> Odredišni aerodrom </th>
-      <td mat-cell *matCellDef="let offer"> {{ offer.arrivalAirport }} </td>
-    </ng-container>
-  
-    <!-- Datum polaska/povratka -->
-    <ng-container matColumnDef="dates">
-      <th mat-header-cell *matHeaderCellDef> Datumi </th>
-      <td mat-cell *matCellDef="let offer"> 
-        {{ offer.departureDate }}
-        <span *ngIf="offer.returnDate"> / {{ offer.returnDate }}</span>
+<table class="results-table">
+  <thead>
+    <tr>
+      <th>Polazak</th>
+      <th>Odredište</th>
+      <th>Datumi</th>
+      <th>Presjedanja</th>
+      <th>Putnici</th>
+      <th>Cijena</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let offer of offers">
+      <td>{{ offer.departureAirport }}</td>
+      <td>{{ offer.arrivalAirport }}</td>
+      <td>
+        <div><strong>Polazak:</strong> {{ offer.departureDate }}</div>
+        <div *ngIf="offer.returnDate"><strong>Povratak:</strong> {{ offer.returnDate }}</div>
       </td>
-    </ng-container>
-  
-    <!-- Presjedanja -->
-    <ng-container matColumnDef="transfers">
-      <th mat-header-cell *matHeaderCellDef> Presjedanja </th>
-      <td mat-cell *matCellDef="let offer"> 
-        {{ offer.numberOfTransfersDeparture }}
-        <span *ngIf="offer.NumberOfTransfersReturn !== undefined">
-          / {{ offer.NumberOfTransfersReturn }}
-        </span>
+      <td>
+        <div><strong>Odlazak:</strong> {{ offer.numberOfTransfersDeparture }}</div>
+        <div><strong>Povratak:</strong> {{ offer.numberOfTransfersReturn ?? 0 }}</div>
       </td>
-    </ng-container>
-  
-    <!-- Putnici -->
-    <ng-container matColumnDef="passengerCount">
-      <th mat-header-cell *matHeaderCellDef> Putnika </th>
-      <td mat-cell *matCellDef="let offer"> {{ offer.passengerCount }} </td>
-    </ng-container>
-  
-    <!-- Valuta -->
-    <ng-container matColumnDef="currency">
-      <th mat-header-cell *matHeaderCellDef> Valuta </th>
-      <td mat-cell *matCellDef="let offer"> {{ offer.currency }} </td>
-    </ng-container>
-  
-    <!-- Cijena -->
-    <ng-container matColumnDef="totalPrice">
-      <th mat-header-cell *matHeaderCellDef> Ukupna cijena </th>
-      <td mat-cell *matCellDef="let offer"> {{ offer.totalPrice }} </td>
-    </ng-container>
-  
-    <!-- Header + Redovi -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-  </table>
-  
+      <td>{{ offer.passengerCount }}</td>
+      <td>
+        {{ offer.totalPrice }}
+        {{ currencySymbols[offer.currency] || offer.currency }}
+      </td>
+    </tr>
+  </tbody>
+</table>

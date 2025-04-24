@@ -1,6 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FlightOfferData } from '../../models/flight-search-result.model';
 
+export const currencySymbols: { [key: string]: string } = {
+  USD: '$',
+  EUR: '€',
+  HRK: 'kn',
+};
+
 @Component({
   selector: 'app-flight-results',
   standalone: false,
@@ -10,6 +16,8 @@ import { FlightOfferData } from '../../models/flight-search-result.model';
 export class FlightResultsComponent {
 
   @Input() offers: FlightOfferData[] = [];
+
+  currencySymbols = currencySymbols;
 
   displayedColumns: string[] = [
     'departureAirport',
