@@ -79,7 +79,7 @@ namespace FlightSearch.Helpers
                     }
                 }
 
-                if (itineraries.Length > 1)
+                if (itineraries.Length > 0)
                 {
                     var segments = itineraries[0].Segments;
                     if (segments?.Length > 0)
