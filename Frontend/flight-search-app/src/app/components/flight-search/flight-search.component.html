@@ -21,14 +21,14 @@
   
   <mat-form-field appearance="fill">
     <mat-label>Datum polaska</mat-label>
-    <input matInput [matDatepicker]="departurePicker" [(ngModel)]="departureDate">
+    <input matInput [matDatepicker]="departurePicker" [(ngModel)]="departureDate" [min]="today">
     <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
     <mat-datepicker #departurePicker></mat-datepicker>
   </mat-form-field>
   
   <mat-form-field appearance="fill" *ngIf="isRoundTrip">
     <mat-label>Datum povratka</mat-label>
-    <input matInput [matDatepicker]="returnPicker" [(ngModel)]="returnDate">
+    <input matInput [matDatepicker]="returnPicker" [(ngModel)]="returnDate" [min]="today">
     <mat-datepicker-toggle matSuffix [for]="returnPicker"></mat-datepicker-toggle>
     <mat-datepicker #returnPicker></mat-datepicker>
   </mat-form-field>
@@ -75,4 +75,6 @@
   <mat-checkbox [(ngModel)]="isRoundTrip" (change)="toggleRoundTrip()">Povratno putovanje</mat-checkbox>
   <button mat-flat-button class="search-btn" (click)="getFlightOfferData()">Pretraži</button>
   </div>
-  </div>
+  </div>  
+  
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>

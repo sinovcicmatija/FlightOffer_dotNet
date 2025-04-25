@@ -13,6 +13,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -43,6 +46,9 @@ import { FlightResultsComponent } from './components/flight-results/flight-resul
     MatTableModule,
     MatButtonModule,
     MatToolbarModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [],

@@ -5,6 +5,7 @@ import { AirportData } from '../../models/airport-data.model';
 import { ApiService } from '../../services/api.service';
 import { FlightSearchDTO } from '../../models/flight-search-call.model';
 import { FlightOfferData } from '../../models/flight-search-result.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   standalone: false,
@@ -32,11 +33,13 @@ export class FlightSearchComponent implements OnInit {
   cabinClasses = ['ECONOMY', 'PREMIUM_ECONOMY', 'BUSINESS', 'FIRST'];
   currency = 'USD';
   currencyes = ['USD', 'EUR', 'HRK'];
+  today: Date = new Date(); 
+  isLoading = false;
 
   @Output() resultsFound = new EventEmitter<FlightOfferData[]>();
 
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private snackBar: MatSnackBar ) {}
 
   ngOnInit(): void {
     this.departureAirports$ = this.departureControl.valueChanges.pipe(
@@ -104,9 +107,21 @@ formatDate(date: Date): string {
 getFlightOfferData()
 {    
   if (!this.selectedDepartureIata || !this.selectedDestinationIata || !this.departureDate) {
-    alert('Molimo ispunite sve obavezne podatke.');
+    const missing = [];
+  if (!this.selectedDepartureIata) missing.push('polazni aerodrom');
+  if (!this.selectedDestinationIata) missing.push('odredišni aerodrom');
+  if (!this.departureDate) missing.push('datum polaska');
+
+  this.snackBar.open(
+    `Molimo ispunite: ${missing.join(', ')}.`,
+    'Zatvori',
+    { duration: 4000 }
+  );
     return;
   }
+
+  this.isLoading = true;
+
   const searchDTO: FlightSearchDTO = {
     originIata: this.selectedDepartureIata || '',
     destinationIata: this.selectedDestinationIata || '',
@@ -119,8 +134,14 @@ getFlightOfferData()
     currency: this.currency
   }
   this.apiService.getFlightOfferData(searchDTO).subscribe({
-    next: (offers) => this.resultsFound.emit(offers),
-    error: (err) => console.error('Greška:', err)
+    next: (offers) => {
+      this.resultsFound.emit(offers);
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Greška:', err);
+      this.isLoading = false;
+    }
   });
 }
 }
