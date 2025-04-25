@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, switchMap, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, switchMap, Observable, tap } from 'rxjs';
 import { AirportData } from '../../models/airport-data.model';
 import { ApiService } from '../../services/api.service';
 import { FlightSearchDTO } from '../../models/flight-search-call.model';
@@ -19,6 +19,10 @@ export class FlightSearchComponent implements OnInit {
 
   departureAirports$: Observable<AirportData[]> | null = null;
   destinationAirports$: Observable<AirportData[]> | null = null;
+  departureAirportList: AirportData[] = [];
+  destinationAirportList: AirportData[] = [];
+  hasSearchedDeparture = false;
+  hasSearchedDestination = false;
 
   selectedDepartureIata: string | null= null;
   selectedDestinationIata: string | null = null;
@@ -46,14 +50,18 @@ export class FlightSearchComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged(),
       filter(value => typeof value === 'string' && value.trim().length > 0),
-      switchMap(value => this.apiService.getAirportData(value))
+      tap(() => this.hasSearchedDeparture = true),
+      switchMap(value => this.apiService.getAirportData(value)),
+      tap(airports => this.departureAirportList = airports)
     );
   
     this.destinationAirports$ = this.destinationControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       filter(value => typeof value === 'string' && value.trim().length > 0),
-      switchMap(value => this.apiService.getAirportData(value))
+      tap(() => this.hasSearchedDestination = true),
+      switchMap(value => this.apiService.getAirportData(value)),
+      tap(airports => this.destinationAirportList = airports)
     );
   }
 

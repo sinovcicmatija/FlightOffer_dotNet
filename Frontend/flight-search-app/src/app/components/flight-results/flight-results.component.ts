@@ -17,6 +17,10 @@ export const currencySymbols: { [key: string]: string } = {
 export class FlightResultsComponent implements AfterViewInit {
 
   @Input() set offers(data: FlightOfferData[]) {
+    if(!data || data.length === 0) {
+      alert("Nema dostupnih letova za odabrane parametre.")
+      return;
+    }
     this.fullOffers = data.sort((a, b) => {
       const aDate = this.parseDate(a.departureDate);
       const bDate = this.parseDate(b.departureDate);

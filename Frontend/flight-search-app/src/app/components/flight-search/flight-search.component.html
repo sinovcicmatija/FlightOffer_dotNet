@@ -7,6 +7,10 @@
       <mat-option *ngFor="let airport of departureAirports$ | async" [value]="airport">
         {{ airport.cityName }}, {{ airport.airportName }} ({{ airport.iataCode }})
       </mat-option>
+
+      <mat-option *ngIf= "hasSearchedDeparture && departureAirportList.length === 0" disabled>
+        Nema rezultata za odabrani pojam.
+      </mat-option>
     </mat-autocomplete>
   </mat-form-field>
   <mat-form-field appearance="fill">
@@ -15,6 +19,10 @@
     <mat-autocomplete #destinationAuto="matAutocomplete" (optionSelected)="onDestinationSelected($event)" [displayWith]="displayFn">
       <mat-option *ngFor="let airport of destinationAirports$ | async" [value]="airport">
         {{ airport.cityName }}, {{ airport.airportName }} ({{ airport.iataCode }})
+      </mat-option>
+
+      <mat-option *ngIf="hasSearchedDestination && destinationAirportList.length === 0" disabled>
+        Nema rezultata za odabrani pojam.
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
@@ -76,5 +84,5 @@
   <button mat-flat-button class="search-btn" (click)="getFlightOfferData()">Pretraži</button>
   </div>
   </div>  
-  
+
   <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
