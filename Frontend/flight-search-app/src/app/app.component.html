@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+  Pretraga letova
+</mat-toolbar>
+
+<div class="container">
+  <app-flight-search (resultsFound)="handleResults($event)"></app-flight-search>
+
+  <app-flight-results *ngIf="flightResults.length" [offers]="flightResults"></app-flight-results>
+
+</div>

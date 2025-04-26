@@ -1,0 +1,40 @@
+<table class="results-table">
+  <thead>
+    <tr>
+      <th>Polazak</th>
+      <th>Odredište</th>
+      <th>Datumi</th>
+      <th>Presjedanja</th>
+      <th>Putnici</th>
+      <th>Cijena</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let offer of pagedOffers">
+      <td>{{ offer.departureAirport }}</td>
+      <td>{{ offer.arrivalAirport }}</td>
+      <td>
+        <div><strong>Polazak:</strong> {{ offer.departureDate }}</div>
+        <div *ngIf="offer.returnDate"><strong>Povratak:</strong> {{ offer.returnDate }}</div>
+      </td>
+      <td>
+        <div><strong>Odlazak:</strong> {{ offer.numberOfTransfersDeparture }}</div>
+        <div *ngIf="offer.numberOfTransfersReturn"><strong>Povratak:</strong> {{ offer.numberOfTransfersReturn }}</div>
+      </td>
+      <td>{{ offer.passengerCount }}</td>
+      <td>
+        {{ offer.totalPrice }}
+        {{ currencySymbols[offer.currency] || offer.currency }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<mat-paginator
+  [length]="fullOffers.length"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  (page)="onPageChange($event)">
+</mat-paginator>
+

@@ -1,29 +1,32 @@
-# Node modules
-**/node_modules/
-**/dist/
-**/.angular/
+# Build artifacts
+bin/
+obj/
 
-# .NET build
-**/bin/
-**/obj/
-**/*.user
-**/*.suo
+# User-specific files
+*.user
+*.suo
 
 # IDE
 .vscode/
 .idea/
 *.iml
+.vs/
 
-# OS
+# Logs
+*.log
+
+# OS generated
 .DS_Store
 Thumbs.db
 
-# Environment
+# Env files
 .env
-*.log
-
-# Angular cache
-.angular/cache/
 
 # Docker
 *.pid
+
+# Angular stuff
+node_modules/
+dist/
+.angular/
+.angular/cache/
