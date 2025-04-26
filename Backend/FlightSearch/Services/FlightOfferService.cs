@@ -35,8 +35,12 @@ namespace FlightSearch.Services
             _logger.LogInformation($"traze se novi podaci, saljem zahtjev");
 
             FlightOfferCallModel model = FlightOfferCallMapper.MapToFlightOfferCallModel(callModelDTO);
-            FlightOfferResponse response = await _client.GetFlightOffer(token, model);
-            List<FlightOfferDTO> offerDTOs = FlightOfferMapper.toDTO(response);
+            FlightOfferResponse? response = await _client.GetFlightOffer(token, model);
+            if(response == null || response.Data == null || response.Data.Length == 0)
+            {
+                return new List<FlightOfferDTO>();
+            }
+            List<FlightOfferDTO> offerDTOs = FlightOfferMapper.ToDTO(response);
             await _redisCacheService.SetAsync(hashKey, offerDTOs, TimeSpan.FromMinutes(10));
 
             return offerDTOs;

@@ -36,8 +36,12 @@ namespace FlightSearch.Services
 
             _logger.LogInformation($"traze se novi podaci, saljem zahtjev");
 
-            LocationResponse response = await _client.GetLocationAirport(token, keyword);
-            List<AirportDTO> airportDTOs = AirportMapper.toDTO(response);
+            LocationResponse? response = await _client.GetLocationAirport(token, keyword);
+            if (response == null || response.Data == null)
+            {
+                return new List<AirportDTO>();
+            }
+            List<AirportDTO> airportDTOs = AirportMapper.ToDTO(response);
             await _redisCacheService.SetAsync(normalizedKey, airportDTOs, TimeSpan.FromMinutes(10));
 
             return airportDTOs;

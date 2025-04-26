@@ -6,9 +6,9 @@ namespace FlightSearch.Helpers
     public class AirportMapper
     {
 
-        public static List<AirportDTO> toDTO(LocationResponse response)
+        public static List<AirportDTO> ToDTO(LocationResponse response)
         {
-            return response.Data
+            return response.Data!
                  .Select(location => new AirportDTO
                  {
                      CityName = location.Address?.CityName,
