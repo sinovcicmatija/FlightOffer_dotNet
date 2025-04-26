@@ -19,7 +19,7 @@
       </td>
       <td>
         <div><strong>Odlazak:</strong> {{ offer.numberOfTransfersDeparture }}</div>
-        <div><strong>Povratak:</strong> {{ offer.numberOfTransfersReturn ?? 0 }}</div>
+        <div *ngIf="offer.numberOfTransfersReturn"><strong>Povratak:</strong> {{ offer.numberOfTransfersReturn }}</div>
       </td>
       <td>{{ offer.passengerCount }}</td>
       <td>

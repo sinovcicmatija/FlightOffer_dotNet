@@ -143,7 +143,7 @@ getFlightOfferData()
   }
   this.apiService.getFlightOfferData(searchDTO).subscribe({
     next: (offers) => {
-      this.resultsFound.emit(offers);
+      this.resultsFound.emit([...offers]);
       this.isLoading = false;
     },
     error: (err) => {
