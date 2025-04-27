@@ -16,7 +16,7 @@ Frontend razvijen u **Angularu**, backend u **ASP.NET Core**.
 Projekt je moguće pokrenuti pomoću jedne naredbe preko Dockera:
     ```bash
     docker-compose up --build
-    `
+    ```
 
 ## Pokretanje lokalno
 
