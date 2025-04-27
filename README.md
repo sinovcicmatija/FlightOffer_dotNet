@@ -61,7 +61,7 @@ Ukoliko želite projekt ručno pokrenuti, potrebno je imate određene alate.
 ## Napomene
 - API ključevi su potrebni (`.env`).
 - Redis mora biti aktivan ako ne koristite Docker.
-- Ukoliko testirate projekte jedan za drugim, molim da prije testiranje drugog projekta očistite cache u redis serveru, razlog iza tog je što .net/angular i java/react projetki imaju različite načine spremanja i čitanja podataka sa cache, te ukoliko probate testirati jedan projekt bez da ste izbrisali podatke od proslog projekta doći će do greške.
+- Ukoliko testirate projekte jedan za drugim, molim da prije testiranje drugog projekta očistite cache u redis serveru, razlog iza tog je što .net/angular i java/react projekti imaju različite načine spremanja i čitanja podataka sa cache, te ukoliko probate testirati jedan projekt bez da ste izbrisali podatke od proslog projekta doći će do greške.
 
 -u redis cli možete ući preko iduće naredbe:
 ```bash
