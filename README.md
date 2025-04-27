@@ -14,13 +14,13 @@ Frontend razvijen u **Angularu**, backend u **ASP.NET Core**.
 ### Brzo pokretanje
 
 Projekt je moguće pokrenuti pomoću jedne naredbe preko Dockera:
-    ```bash
-    docker-compose up --build
-    ```
+```bash
+docker-compose up --build
+```
 
 ## Pokretanje lokalno
 
-Ukoliko želite projekt runo pokrenuti, potrebno je imate određene alate.
+Ukoliko želite projekt ručno pokrenuti, potrebno je imate određene alate.
 
 ### Preduvjeti
 - Node.js
@@ -64,9 +64,9 @@ Ukoliko želite projekt runo pokrenuti, potrebno je imate određene alate.
 - Ukoliko testirate projekte jedan za drugim, molim da prije testiranje drugog projekta očistite cache u redis serveru, razlog iza tog je što .net/angular i java/react projetki imaju različite načine spremanja i čitanja podataka sa cache, te ukoliko probate testirati jedan projekt bez da ste izbrisali podatke od proslog projekta doći će do greške.
 
 -u redis cli možete ući preko iduće naredbe:
-  ```bash
-    docker exec -it <ime_servera> redis-cli
-      ```
+```bash
+docker exec -it <ime_servera> redis-cli
+ ```
 -nakon toga pokrenite naredbu 
 ```bash 
 FLUSHALL
