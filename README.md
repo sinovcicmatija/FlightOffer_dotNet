@@ -13,7 +13,22 @@ Frontend razvijen u **Angularu**, backend u **ASP.NET Core**.
 
 ### Brzo pokretanje
 
-Projekt je moguće pokrenuti pomoću jedne naredbe preko Dockera:
+### Preduvjeti
+ - Docker
+ - Amadeus ključevi
+
+### Dobavljanje API ključeva
+   
+Za dobavljanje API ključeva:
+ - Registrirati se na https://developers.amadeus.com
+ - Kreirati aplikaciju (Create new app) unutar Self Service Workspace.
+ - ![image](https://github.com/user-attachments/assets/36401e53-78ea-495c-be2d-8ffddaa67aea)
+ - Nakon kreiranja aplikacije, dohvatiti API Key i API Secret (vidljivo dolje lijevo).
+ - ![image](https://github.com/user-attachments/assets/101c200f-1847-481c-829a-54c28acc672d)
+ - Kopirati ključeve u .env.example fajl u root folderu i preimenovati ga u .env.
+   
+
+Nakon toga projekt je moguće pokrenuti pomoću jedne naredbe preko Dockera:
 ```bash
 docker-compose up --build
 ```
@@ -34,7 +49,7 @@ Ukoliko želite projekt ručno pokrenuti, potrebno je imate određene alate.
     git clone https://github.com/tvoj-repo/projekt.git
     ```
 
-2. Postaviti `.env` varijable.
+2. Postaviti `.env` varijable prema vlastitim klučevima sa Amadeus-a.
 
 3. Pokrenuti:
     - Backend:
