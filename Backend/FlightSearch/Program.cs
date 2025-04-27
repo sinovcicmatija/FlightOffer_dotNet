@@ -14,7 +14,11 @@ namespace FlightSearch
 
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379"));
+            builder.Configuration.AddEnvironmentVariables();
+
+            var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "localhost:6379";
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisHost));
 
             // Add services to the container.
 
@@ -23,7 +27,10 @@ namespace FlightSearch
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://localhost:4200")
+                                      policy.WithOrigins(
+                                          "http://localhost:4200",
+                                          "http://frontend:4200"
+                                          )
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                                   });
@@ -49,7 +56,7 @@ namespace FlightSearch
             }
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

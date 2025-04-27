@@ -20,9 +20,9 @@ namespace FlightSearch.Client
         public AmadeusClient(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _apiKey = Environment.GetEnvironmentVariable("AMADEUS_API_KEY")
+            _apiKey = configuration["AMADEUS_API_KEY"]
                 ?? throw new InvalidOperationException("API ključ nije postavljen");
-            _apiSecret = Environment.GetEnvironmentVariable("AMADEUS_API_SECRET")
+            _apiSecret = configuration["AMADEUS_API_SECRET"]
                 ?? throw new InvalidOperationException("API tajni ključ nije postavljen");
 
             _tokenUrl = configuration.GetValue<string>("AmadeusApi:AmadeusApiTokenUrl");
