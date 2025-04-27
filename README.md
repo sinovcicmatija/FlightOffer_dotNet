@@ -46,7 +46,7 @@ Ukoliko želite projekt ručno pokrenuti, potrebno je imate određene alate.
 ### Koraci
 1. Klonirati repozitorij:
     ```bash
-    git clone https://github.com/tvoj-repo/projekt.git
+    git clone https://github.com/sinovcicmatija/FlightOffer_dotNet.git
     ```
 
 2. Postaviti `.env` varijable prema vlastitim klučevima sa Amadeus-a.
